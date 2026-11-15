@@ -144,7 +144,36 @@ function App() {
           className="aspect-video w-full border-0"
         />
       </section>
+
+      <Footer />
     </main>
+  );
+}
+
+// Adapted from FaunaDex's footer: same links layout, in this site's plain underlined style
+// (no hover animation, since the site turns animations off).
+const FOOTER_LINKS = [
+  ["Github Repository", "https://github.com/PenguinPush/calLMAOut"],
+  ["Report a Bug", "mailto:andrewdai.dev@gmail.com"],
+  ["View Dataset", "https://fei.edu.br/~cet/facedatabase.html"],
+];
+
+function Footer() {
+  const link = "underline underline-offset-2 hover:text-black";
+  return (
+    <footer className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center text-xs text-neutral-500">
+      <span>
+        Made by{" "}
+        <a href="https://andrewd.ai" target="_blank" rel="noopener noreferrer" className={link}>
+          Andrew Dai
+        </a>
+      </span>
+      {FOOTER_LINKS.map(([label, href]) => (
+        <a key={href} href={href} target="_blank" rel="noopener noreferrer" className={link}>
+          {label}
+        </a>
+      ))}
+    </footer>
   );
 }
 
