@@ -1,0 +1,43 @@
+/* Copied from the callmaout extension by scripts/sync-extension.mjs. */
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Arial Narrow", Arial, sans-serif;
+}
+
+/* Unlayered so it beats the system-ui font Chrome injects into extension pages. */
+html,
+body {
+  @apply bg-white font-sans text-black antialiased;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    outline: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  input,
+  select {
+    @apply appearance-none rounded-none border-0 bg-neutral-100 px-2 py-1.5;
+  }
+
+  input[type="checkbox"] {
+    @apply size-4 p-0 checked:bg-black;
+  }
+
+  button {
+    @apply cursor-pointer underline underline-offset-2;
+  }
+}
+
+/* Lowercase presentation only: saved keys, camera IDs, and typed values stay intact. */
+.settings-page,
+.settings-page :is(button, input, select, textarea, option),
+.settings-page ::placeholder {
+  text-transform: lowercase;
+}

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="callmaout2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/callmaout.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,35 @@
+{
+  "name": "callmaout-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node scripts/sync-extension.mjs",
+    "predev": "node scripts/copy-wasm.mjs",
+    "dev": "vite",
+    "prebuild": "node scripts/copy-wasm.mjs",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages --dist dist --nojekyll --message \"Deploy calLMAOut site\""
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^1.2.3",
+    "gifenc": "^1.0.3",
+    "onnxruntime-web": "^1.31.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/chrome": "^0.3.7",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.3.0",
+    "gh-pages": "^6.3.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5",
+    "vite": "^8.3.8"
+  }
+}
