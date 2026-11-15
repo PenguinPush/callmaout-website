@@ -32,9 +32,15 @@ function App() {
 
   // One shared request, so pressing Download while the first permission prompt is open doesn't ask twice.
   const opening = useRef<Promise<MediaStream | null> | null>(null);
-  function startCamera() {
-    opening.current ??= navigator.mediaDevices
-      .getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 } } })
+  function startCamera(): Promise<MediaStream | null> {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError(window.isSecureContext
+        ? "Camera access isn't supported in this browser. Try a current browser with camera access enabled."
+        : "Camera access requires HTTPS or localhost. Open this site over HTTPS, or use localhost for development.");
+      return Promise.resolve(null);
+    }
+    opening.current ??= Promise.resolve()
+      .then(() => navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1280 }, height: { ideal: 720 } } }))
       .then((opened) => {
         setCameraError("");
         setStream(opened);
@@ -43,7 +49,7 @@ function App() {
         return opened;
       })
       .catch((e) => {
-        setCameraError(String(e));
+        setCameraError(`${e instanceof Error ? e.message : String(e)}. Check camera permissions for this page and try again.`);
         opening.current = null; // let Download ask again
         return null;
       });
@@ -115,7 +121,7 @@ function App() {
           Download for Chrome
         </button>
         <p className="text-neutral-500">Version {version}. Unzip it, open chrome://extensions, turn on Developer mode, click Load unpacked and pick the folder.</p>
-        {cameraError && <p className="text-neutral-500">Camera unavailable: {cameraError}. Allow camera access for this page to see your GIF.</p>}
+        {cameraError && <p className="text-neutral-500" role="status">Camera unavailable: {cameraError}</p>}
         {gif.state === "making" && <p className="text-neutral-500">Making your GIF…</p>}
         {gif.state === "failed" && <p className="text-neutral-500">No GIF: {gif.message}.</p>}
         {gif.state === "ready" && (
